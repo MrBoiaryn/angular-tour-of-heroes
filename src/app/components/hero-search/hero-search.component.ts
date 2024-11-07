@@ -8,8 +8,8 @@ import {
   Subject,
   switchMap,
 } from 'rxjs';
-import { HeroInterface } from '../hero.interface';
-import { HeroService } from '../hero.service';
+import { HeroInterface } from '../../models/hero.interface';
+import { HeroService } from '../../services/hero.service';
 
 @Component({
   selector: 'app-hero-search',

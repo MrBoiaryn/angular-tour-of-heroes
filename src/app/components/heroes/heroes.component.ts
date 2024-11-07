@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { HeroInterface } from '../hero.interface';
+import { HeroInterface } from '../../models/hero.interface';
 import { FormsModule } from '@angular/forms';
-import { HeroDetailComponent } from '../hero-detail/hero-detail.component';
-import { HeroService } from '../hero.service';
-import { MessageService } from '../message.service';
+import { UnitDetailComponent } from '../unit-detail/unit-detail.component';
+import { HeroService } from '../../services/hero.service';
+import { MessageService } from '../../services/message.service';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-heroes',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeroDetailComponent, RouterLink],
+  imports: [CommonModule, FormsModule, UnitDetailComponent, RouterLink],
   templateUrl: './heroes.component.html',
   styleUrl: './heroes.component.scss',
 })

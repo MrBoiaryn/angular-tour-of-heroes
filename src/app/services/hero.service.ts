@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HeroInterface } from './hero.interface';
-import { HEROES } from './mock-heroes';
+import { HeroInterface } from '../models/hero.interface';
+import { HEROES } from '../mock/mock-heroes';
 import { catchError, Observable, of, tap } from 'rxjs';
-import { MessageService } from './message.service';
+import { MessageService } from '../services/message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({

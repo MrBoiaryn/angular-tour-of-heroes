@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { HeroInterface } from '../hero.interface';
-import { HeroService } from '../hero.service';
+import { HeroInterface } from '../../models/hero.interface';
+import { HeroService } from '../../services/hero.service';
 import { RouterLink } from '@angular/router';
 import { HeroSearchComponent } from '../hero-search/hero-search.component';
 

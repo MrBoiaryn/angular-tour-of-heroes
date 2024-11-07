@@ -1,19 +1,19 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HeroInterface } from '../hero.interface';
+import { HeroInterface } from '../../models/hero.interface';
 import { ActivatedRoute } from '@angular/router';
-import { HeroService } from '../hero.service';
+import { HeroService } from '../../services/hero.service';
 
 @Component({
   selector: 'app-hero-detail',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './hero-detail.component.html',
-  styleUrl: './hero-detail.component.scss',
+  templateUrl: './unit-detail.component.html',
+  styleUrl: './unit-detail.component.scss',
 })
-export class HeroDetailComponent implements OnInit {
-  @Input() hero?: HeroInterface;
+export class UnitDetailComponent implements OnInit {
+  @Input() unit?: HeroInterface;
   constructor(
     private route: ActivatedRoute,
     private heroService: HeroService,
@@ -21,12 +21,12 @@ export class HeroDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getHero();
+    this.getUnit();
   }
 
-  getHero(): void {
+  getUnit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.heroService.getHero(id).subscribe((hero) => (this.hero = hero));
+    this.heroService.getHero(id).subscribe((hero) => (this.unit = hero));
   }
 
   goBack(): void {
@@ -34,8 +34,8 @@ export class HeroDetailComponent implements OnInit {
   }
 
   save(): void {
-    if (this.hero) {
-      this.heroService.updateHero(this.hero).subscribe(() => this.goBack());
+    if (this.unit) {
+      this.heroService.updateHero(this.unit).subscribe(() => this.goBack());
     }
   }
 }

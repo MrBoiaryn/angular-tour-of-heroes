@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { HeroesComponent } from './heroes/heroes.component';
+import { HeroesComponent } from './components/heroes/heroes.component';
 import { MessagesComponent } from './messages/messages.component';
 
 @Component({
