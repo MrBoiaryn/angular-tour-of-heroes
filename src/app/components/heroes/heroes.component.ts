@@ -29,10 +29,12 @@ export class HeroesComponent implements OnInit {
 
   add(name: string): void {
     name = name.trim();
+    const id = new Date().getTime();
+    // convert date to number
     if (!name) {
       return;
     }
-    this.heroService.addHero({ name } as HeroInterface).subscribe((hero) => {
+    this.heroService.addHero({ id, name }).subscribe((hero) => {
       this.heroes.push(hero);
     });
   }

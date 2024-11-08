@@ -9,7 +9,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root',
 })
 export class HeroService {
-  private heroesUrl = 'api/heroes';
+  // private heroesUrl = 'api/heroes';
+  private heroesUrl =
+    'https://tour-of-heroes-ad5af-default-rtdb.europe-west1.firebasedatabase.app/heroes';
 
   constructor(
     private messageService: MessageService,
