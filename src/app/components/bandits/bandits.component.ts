@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { HeroInterface } from '../../models/hero.interface';
-import { HeroService } from '../../services/hero.service';
+import { Component } from '@angular/core';
+import { UnitInterface } from '../../models/unit.interface';
 import { RouterLink } from '@angular/router';
+import { BanditService } from '../../services/bandit.service';
 
 @Component({
   selector: 'app-bandits',
@@ -12,16 +12,18 @@ import { RouterLink } from '@angular/router';
   styleUrl: './bandits.component.scss',
 })
 export class BanditsComponent {
-  bandits: HeroInterface[] = [];
+  bandits: UnitInterface[] = [];
 
-  constructor(private heroService: HeroService) {}
+  constructor(private banditService: BanditService) {}
 
   ngOnInit(): void {
     this.getHeroes();
   }
 
   getHeroes(): void {
-    this.heroService.getHeroes().subscribe((heroes) => (this.bandits = heroes));
+    this.banditService
+      .getBandits()
+      .subscribe((bandits) => (this.bandits = bandits));
   }
 
   add(name: string): void {
@@ -29,13 +31,15 @@ export class BanditsComponent {
     if (!name) {
       return;
     }
-    this.heroService.addHero({ name } as HeroInterface).subscribe((hero) => {
-      this.bandits.push(hero);
-    });
+    this.banditService
+      .addBandit({ name } as UnitInterface)
+      .subscribe((bandit) => {
+        this.bandits.push(bandit);
+      });
   }
 
-  delete(hero: HeroInterface): void {
-    this.bandits = this.bandits.filter((h) => h !== hero);
-    this.heroService.deleteHero(hero.id).subscribe();
+  delete(bandit: UnitInterface): void {
+    this.bandits = this.bandits.filter((h) => h !== bandit);
+    this.banditService.deleteBandit(bandit.id).subscribe();
   }
 }

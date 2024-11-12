@@ -1,14 +1,14 @@
-import { HeroInterface } from '../models/hero.interface';
+import { UnitInterface } from '../models/unit.interface';
 
-export const HEROES: HeroInterface[] = [
-  { id: 12, name: 'Dr. Nice' },
-  { id: 13, name: 'Bombasto' },
-  { id: 14, name: 'Celeritas' },
-  { id: 15, name: 'Magneta' },
-  { id: 16, name: 'RubberMan' },
-  { id: 17, name: 'Dynama' },
-  { id: 18, name: 'Dr. IQ' },
-  { id: 19, name: 'Magma' },
-  { id: 20, name: 'Tornado' },
-  { id: 99, name: 'Galia' },
+export const HEROES: UnitInterface[] = [
+  { id: 12, name: 'Dr. Nice', type: 'hero' },
+  { id: 13, name: 'Bombasto', type: 'hero' },
+  { id: 14, name: 'Celeritas', type: 'hero' },
+  { id: 15, name: 'Magneta', type: 'hero' },
+  { id: 16, name: 'RubberMan', type: 'hero' },
+  { id: 17, name: 'Dynama', type: 'hero' },
+  { id: 18, name: 'Dr. IQ', type: 'hero' },
+  { id: 19, name: 'Magma', type: 'hero' },
+  { id: 20, name: 'Tornado', type: 'hero' },
+  { id: 99, name: 'Galia', type: 'hero' },
 ];

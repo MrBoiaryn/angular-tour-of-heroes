@@ -1,15 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
+  concatMap,
   debounceTime,
   distinctUntilChanged,
+  forkJoin,
+  map,
   Observable,
   Subject,
   switchMap,
 } from 'rxjs';
-import { HeroInterface } from '../../models/hero.interface';
+import { UnitInterface } from '../../models/unit.interface';
 import { HeroService } from '../../services/hero.service';
+import { BanditService } from '../../services/bandit.service';
 
 @Component({
   selector: 'app-hero-search',
@@ -17,25 +21,37 @@ import { HeroService } from '../../services/hero.service';
   imports: [CommonModule, RouterLink],
   templateUrl: './hero-search.component.html',
   styleUrl: './hero-search.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeroSearchComponent {
-  heroes$!: Observable<HeroInterface[]>;
+export class HeroSearchComponent implements OnInit {
+  units$!: Observable<UnitInterface[]>;
   private searchTerms = new Subject<string>();
 
-  constructor(private heroService: HeroService) {}
+  constructor(
+    private heroService: HeroService,
+    private banditService: BanditService
+  ) {}
 
   search(term: string): void {
     this.searchTerms.next(term);
   }
 
   ngOnInit(): void {
-    this.heroes$ = this.searchTerms.pipe(
+    this.unitsSearch();
+  }
+  unitsSearch(): void {
+    this.units$ = this.searchTerms.pipe(
       debounceTime(300),
 
       distinctUntilChanged(),
 
-      switchMap((term: string) => this.heroService.searchHeroes(term))
+      // switchMap((term: string) => this.heroService.searchHeroes(term))
+      concatMap((term: string) =>
+        forkJoin([
+          this.heroService.searchHeroes(term),
+          this.banditService.searchBandits(term),
+        ])
+      ),
+      map(([heroes, bandits]) => [...heroes, ...bandits])
     );
   }
 }
