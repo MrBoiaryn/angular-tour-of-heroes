@@ -17,7 +17,6 @@ import { HeroService } from '../../services/hero.service';
   imports: [CommonModule, RouterLink],
   templateUrl: './hero-search.component.html',
   styleUrl: './hero-search.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeroSearchComponent {
   heroes$!: Observable<HeroInterface[]>;

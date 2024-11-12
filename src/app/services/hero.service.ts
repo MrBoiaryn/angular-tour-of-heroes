@@ -1,22 +1,62 @@
 import { Injectable } from '@angular/core';
 import { HeroInterface } from '../models/hero.interface';
 import { HEROES } from '../mock/mock-heroes';
-import { catchError, Observable, of, tap } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 import { MessageService } from '../services/message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ResponseHeroInterface } from '../models/response-hero.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HeroService {
-  // private heroesUrl = 'api/heroes';
-  private heroesUrl =
+  heroes: HeroInterface[] = [];
+
+  private heroesUrl = 'api/heroes';
+  private heroesUrlRead =
     'https://tour-of-heroes-ad5af-default-rtdb.europe-west1.firebasedatabase.app/heroes';
 
   constructor(
     private messageService: MessageService,
     private http: HttpClient
   ) {}
+
+  readHeroes(): void {
+    this.http
+      .get<ResponseHeroInterface>(`${this.heroesUrlRead}.json`)
+      .pipe(
+        map((res: ResponseHeroInterface) => {
+          const arr: HeroInterface[] = Object.keys(res).map((key) => ({
+            key,
+            ...res[key],
+          }));
+          return arr;
+        }),
+        catchError((error) => {
+          console.error('Помилка при завантаженні героїв:', error);
+          return of([]);
+        })
+      )
+      .subscribe((heroes) => {
+        this.heroes = heroes;
+        console.log(heroes);
+      });
+  }
+  // readHeroes(): void {
+  //   this.http
+  //     .get<ResponseHeroInterface>(`${this.heroesUrlRead}.json`)
+  //     .pipe(
+  //       map((res) => {
+  //         const arr: HeroInterface[] = [];
+  //         Object.keys(res).forEach((key) => arr.push({ key, ...res[key] }));
+  //         return arr;
+  //       })
+  //     )
+  //     .subscribe((heroes) => {
+  //       this.heroes = heroes;
+  //       console.log(heroes);
+  //     });
+  // }
 
   getHeroes(): Observable<HeroInterface[]> {
     return this.http.get<HeroInterface[]>(this.heroesUrl).pipe(
