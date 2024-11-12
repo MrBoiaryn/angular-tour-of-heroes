@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { HeroInterface } from '../../models/hero.interface';
+import { UnitInterface } from '../../models/unit.interface';
 import { FormsModule } from '@angular/forms';
-import { UnitDetailComponent } from '../unit-detail/unit-detail.component';
+import { HeroDetailComponent } from '../hero-detail/hero-detail.component';
 import { HeroService } from '../../services/hero.service';
 import { MessageService } from '../../services/message.service';
 import { RouterLink } from '@angular/router';
@@ -10,12 +10,12 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-heroes',
   standalone: true,
-  imports: [CommonModule, FormsModule, UnitDetailComponent, RouterLink],
+  imports: [CommonModule, FormsModule, HeroDetailComponent, RouterLink],
   templateUrl: './heroes.component.html',
   styleUrl: './heroes.component.scss',
 })
 export class HeroesComponent implements OnInit {
-  heroes: HeroInterface[] = [];
+  heroes: UnitInterface[] = [];
 
   constructor(private heroService: HeroService) {}
 
@@ -35,12 +35,16 @@ export class HeroesComponent implements OnInit {
     if (!name) {
       return;
     }
+<<<<<<< HEAD
     this.heroService.addHero({ id, name }).subscribe((hero) => {
+=======
+    this.heroService.addHero({ name } as UnitInterface).subscribe((hero) => {
+>>>>>>> dev
       this.heroes.push(hero);
     });
   }
 
-  delete(hero: HeroInterface): void {
+  delete(hero: UnitInterface): void {
     this.heroes = this.heroes.filter((h) => h !== hero);
     this.heroService.deleteHero(hero.id).subscribe();
   }

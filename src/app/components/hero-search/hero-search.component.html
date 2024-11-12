@@ -1,12 +1,20 @@
 <div id="search-component">
-  <label for="search-box">Hero Search</label>
+  <label for="search-box">Unit Search</label>
   <input #searchBox id="search-box" (input)="search(searchBox.value)" />
 
-  <ul class="search-result">
-    <li *ngFor="let hero of heroes$ | async">
-      <a routerLink="/detail/{{hero.id}}">
+  <!-- <ul class="search-result">
+    <li *ngFor="let hero of units$ | async">
+      <a routerLink="/hero/{{hero.id}}">
         {{hero.name}}
       </a>
     </li>
+  </ul> -->
+  <ul class="search-result">
+    <li *ngFor="let unit of units$ | async">
+      <a [routerLink]="['/', unit.type, unit.id]">
+        {{ unit.name }}
+      </a>
+    </li>
   </ul>
+
 </div>

@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { HeroInterface } from '../../models/hero.interface';
+import { UnitInterface } from '../../models/unit.interface';
 import { HeroService } from '../../services/hero.service';
 import { RouterLink } from '@angular/router';
 import { HeroSearchComponent } from '../hero-search/hero-search.component';
+import { BanditService } from '../../services/bandit.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,17 +14,27 @@ import { HeroSearchComponent } from '../hero-search/hero-search.component';
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
-  heroes: HeroInterface[] = [];
+  heroes: UnitInterface[] = [];
+  bandits: UnitInterface[] = [];
 
-  constructor(private heroService: HeroService) {}
+  constructor(
+    private heroService: HeroService,
+    private banditService: BanditService
+  ) {}
 
   ngOnInit(): void {
     this.getHeroes();
+    this.getBandits();
   }
 
   getHeroes(): void {
     this.heroService
       .getHeroes()
       .subscribe((heroes) => (this.heroes = heroes.slice(1, 5)));
+  }
+  getBandits(): void {
+    this.banditService
+      .getBandits()
+      .subscribe((bandits) => (this.bandits = bandits.slice(1, 5)));
   }
 }
