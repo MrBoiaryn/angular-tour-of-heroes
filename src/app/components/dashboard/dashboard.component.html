@@ -1,14 +1,26 @@
-<h2>Top Heroes</h2>
-<div class="heroes-menu">
-  <a *ngFor="let hero of heroes" routerLink="/hero/{{hero.id}}">
-    {{hero.name}}
-  </a>
+<h3 (click)="switchTab('heroes')">Hero</h3>
+<h3 (click)="switchTab('bandits')">Bandits</h3>
+
+
+<div *ngIf="activeTub === 'heroes'">
+  <h2>Top Heroes</h2>
+
+  <div class="heroes-menu">
+    <a *ngFor="let hero of heroes" routerLink="/unit/{{hero.id}}" routerLin>
+      {{hero.name}}
+    </a>
+  </div>
 </div>
-<h2>Top Bandits</h2>
-<div class="bandits-menu">
-  <a *ngFor="let bandit of bandits" routerLink="/bandit/{{bandit.id}}">
-    {{bandit.name}}
-  </a>
+
+<div *ngIf="activeTub === 'bandits'">
+  <h2>Top Bandits</h2>
+  <div class="bandits-menu">
+    <a *ngFor="let bandit of bandits" routerLink="/unit/{{bandit.id}}">
+      {{bandit.name}}
+    </a>
+  </div>
 </div>
+
+
 
 <app-hero-search></app-hero-search>

@@ -1,0 +1,13 @@
+<div *ngIf="unit">
+  <h1>LOHI</h1>
+  <h2>{{unit.name | uppercase}} Details!</h2>
+  <div>id: {{unit.id}}</div>
+  <div>
+    <label for="hero-name">unit name: </label>
+    <input id="hero-name" [(ngModel)]="unit.name" type="text" placeholder="name">
+  </div>
+
+</div>
+
+<button type="button" (click)="goBack()">go back</button>
+<button type="button" (click)="save()">save</button>

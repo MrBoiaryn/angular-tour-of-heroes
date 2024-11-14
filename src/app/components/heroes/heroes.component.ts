@@ -6,6 +6,7 @@ import { HeroDetailComponent } from '../hero-detail/hero-detail.component';
 import { HeroService } from '../../services/hero.service';
 import { MessageService } from '../../services/message.service';
 import { RouterLink } from '@angular/router';
+import { UnitTypeService } from '../../services/unitType.service';
 
 @Component({
   selector: 'app-heroes',
@@ -17,7 +18,12 @@ import { RouterLink } from '@angular/router';
 export class HeroesComponent implements OnInit {
   heroes: UnitInterface[] = [];
 
-  constructor(private heroService: HeroService) {}
+  constructor(
+    private unitTypeService: UnitTypeService,
+    private heroService: HeroService
+  ) {
+    this.unitTypeService.setUnitType('hero');
+  }
 
   ngOnInit(): void {
     this.getHeroes();

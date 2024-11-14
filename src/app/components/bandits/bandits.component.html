@@ -9,7 +9,9 @@
 
 <ul class="bandits">
   <li *ngFor="let bandit of bandits">
-    <a routerLink="/bandit/{{bandit.id}}">
+    <!-- <a routerLink="/bandit/{{bandit.id}}"> -->
+    <a routerLink="/unit/{{bandit.id}}">
+
       <span class="badge">{{bandit.id}}</span> {{bandit.name}}
     </a>
     <button type="button" class="delete" (click)="delete(bandit)" title="delete bandit">x</button>

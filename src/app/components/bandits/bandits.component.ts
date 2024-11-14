@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { UnitInterface } from '../../models/unit.interface';
 import { RouterLink } from '@angular/router';
 import { BanditService } from '../../services/bandit.service';
+import { UnitTypeService } from '../../services/unitType.service';
 
 @Component({
   selector: 'app-bandits',
@@ -14,7 +15,12 @@ import { BanditService } from '../../services/bandit.service';
 export class BanditsComponent {
   bandits: UnitInterface[] = [];
 
-  constructor(private banditService: BanditService) {}
+  constructor(
+    private unitTypeService: UnitTypeService,
+    private banditService: BanditService
+  ) {
+    this.unitTypeService.setUnitType('bandit');
+  }
 
   ngOnInit(): void {
     this.getHeroes();

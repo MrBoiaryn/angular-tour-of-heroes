@@ -1,5 +1,7 @@
 export interface UnitInterface {
   id: number;
   name: string;
-  type: 'hero' | 'bandit';
+  type: UnitType;
 }
+
+export type UnitType = 'hero' | 'bandit';

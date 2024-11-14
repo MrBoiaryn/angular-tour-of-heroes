@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MessageService } from './message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, Observable, of, tap } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 import { UnitInterface } from '../models/unit.interface';
 
 @Injectable({
@@ -9,11 +9,27 @@ import { UnitInterface } from '../models/unit.interface';
 })
 export class BanditService {
   private banditsUrl = 'api/bandits';
+  private banditsUrl2 =
+    'https://fir-test-d0eeb-default-rtdb.europe-west1.firebasedatabase.app/customers';
 
   constructor(
     private messageService: MessageService,
     private http: HttpClient
-  ) {}
+  ) {
+    this.http
+      .get<any>(`${this.banditsUrl2}.json`)
+      .pipe(
+        tap((res) => console.log(res))
+        // map((res) => {
+        //   const arr: any[] = [];
+        //   Object.keys(res).forEach((key) => arr.push({ key, ...res[key] }));
+        //   return arr;
+        // })
+      )
+      .subscribe({
+        next: (res: any[]) => console.log(res),
+      });
+  }
 
   getBandits(): Observable<UnitInterface[]> {
     return this.http.get<UnitInterface[]>(this.banditsUrl).pipe(

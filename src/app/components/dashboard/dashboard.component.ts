@@ -5,6 +5,11 @@ import { HeroService } from '../../services/hero.service';
 import { RouterLink } from '@angular/router';
 import { HeroSearchComponent } from '../hero-search/hero-search.component';
 import { BanditService } from '../../services/bandit.service';
+import { UnitTypeService } from '../../services/unitType.service';
+import {
+  RouterLinkActiveDelay,
+  RouterLinkDelayModule,
+} from '@bcodes/ngx-routerlink-delay';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,11 +21,19 @@ import { BanditService } from '../../services/bandit.service';
 export class DashboardComponent implements OnInit {
   heroes: UnitInterface[] = [];
   bandits: UnitInterface[] = [];
+  activeTub: 'heroes' | 'bandits' = 'heroes';
 
   constructor(
     private heroService: HeroService,
-    private banditService: BanditService
+    private banditService: BanditService,
+    private unitTypeService: UnitTypeService
   ) {}
+
+  switchTab(tab: 'heroes' | 'bandits'): void {
+    this.activeTub = tab;
+    if (tab === 'bandits') this.unitTypeService.setUnitType('bandit');
+    if (tab === 'heroes') this.unitTypeService.setUnitType('hero');
+  }
 
   ngOnInit(): void {
     this.getHeroes();
