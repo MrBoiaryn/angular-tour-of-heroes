@@ -1,4 +1,4 @@
-import { UnitInterface } from '../models/unit.interface';
+import { UnitInterface } from '../types/unit.interface';
 
 export const HEROES: UnitInterface[] = [
   { id: 12, name: 'Dr. Nice', type: 'hero' },

@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { UnitInterface } from '../../models/unit.interface';
+import { UnitInterface } from '../../shared/types/unit.interface';
 import { FormsModule } from '@angular/forms';
 import { HeroDetailComponent } from '../hero-detail/hero-detail.component';
-import { HeroService } from '../../services/hero.service';
-import { MessageService } from '../../services/message.service';
+import { HeroService } from '../../shared/services/hero.service';
 import { RouterLink } from '@angular/router';
 
 @Component({

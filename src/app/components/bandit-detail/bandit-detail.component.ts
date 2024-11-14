@@ -1,8 +1,8 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { UnitInterface } from '../../models/unit.interface';
+import { UnitInterface } from '../../shared/types/unit.interface';
 import { ActivatedRoute } from '@angular/router';
-import { BanditService } from '../../services/bandit.service';
+import { BanditService } from '../../shared/services/bandit.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MessageService } from './message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, Observable, of, tap } from 'rxjs';
-import { UnitInterface } from '../models/unit.interface';
+import { UnitInterface } from '../types/unit.interface';
 
 @Injectable({
   providedIn: 'root',

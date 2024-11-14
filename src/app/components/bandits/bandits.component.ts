@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { UnitInterface } from '../../models/unit.interface';
+import { UnitInterface } from '../../shared/types/unit.interface';
 import { RouterLink } from '@angular/router';
-import { BanditService } from '../../services/bandit.service';
+import { BanditService } from '../../shared/services/bandit.service';
 
 @Component({
   selector: 'app-bandits',

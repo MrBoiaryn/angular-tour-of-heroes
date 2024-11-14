@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UnitInterface } from '../models/unit.interface';
+import { UnitInterface } from '../types/unit.interface';
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 
 @Injectable({

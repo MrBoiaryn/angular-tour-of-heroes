@@ -11,9 +11,9 @@ import {
   Subject,
   switchMap,
 } from 'rxjs';
-import { UnitInterface } from '../../models/unit.interface';
-import { HeroService } from '../../services/hero.service';
-import { BanditService } from '../../services/bandit.service';
+import { UnitInterface } from '../../shared/types/unit.interface';
+import { HeroService } from '../../shared/services/hero.service';
+import { BanditService } from '../../shared/services/bandit.service';
 
 @Component({
   selector: 'app-hero-search',

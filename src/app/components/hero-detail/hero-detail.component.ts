@@ -1,9 +1,9 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { UnitInterface } from '../../models/unit.interface';
+import { UnitInterface } from '../../shared/types/unit.interface';
 import { ActivatedRoute } from '@angular/router';
-import { HeroService } from '../../services/hero.service';
+import { HeroService } from '../../shared/services/hero.service';
 
 @Component({
   selector: 'app-hero-detail',

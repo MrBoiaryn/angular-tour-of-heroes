@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { UnitInterface } from '../../models/unit.interface';
-import { HeroService } from '../../services/hero.service';
+import { UnitInterface } from '../../shared/types/unit.interface';
+import { HeroService } from '../../shared/services/hero.service';
 import { RouterLink } from '@angular/router';
 import { HeroSearchComponent } from '../hero-search/hero-search.component';
-import { BanditService } from '../../services/bandit.service';
+import { BanditService } from '../../shared/services/bandit.service';
 
 @Component({
   selector: 'app-dashboard',
