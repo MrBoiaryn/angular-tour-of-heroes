@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -17,6 +17,13 @@ export class LoginComponent {
   userPassword!: string;
 
   constructor(public authService: AuthService, private router: Router) {}
+
+  @HostListener('document:keyup', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.login();
+    }
+  }
 
   login(): void {
     this.message = 'Trying to log in ...';
