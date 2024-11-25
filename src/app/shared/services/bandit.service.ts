@@ -1,39 +1,101 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { MessageService } from './message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, Observable, of, tap } from 'rxjs';
+import {
+  catchError,
+  map,
+  Observable,
+  of,
+  switchMap,
+  tap,
+  throwError,
+} from 'rxjs';
 import { UnitInterface } from '../types/unit.interface';
+import { RequestUnitInterface } from '../types/request-unit.interface';
+import { ResponseUnitInterfase } from '../types/response-unit.interfase';
+
+const urlBandits =
+  'https://tour-of-heroes-ad5af-default-rtdb.europe-west1.firebasedatabase.app/bandits';
 
 @Injectable({
   providedIn: 'root',
 })
-export class BanditService {
-  private banditsUrl = 'api/bandits';
+export class BanditService implements OnInit {
+  bandits: UnitInterface[] = [];
 
   constructor(
     private messageService: MessageService,
     private http: HttpClient
   ) {}
 
-  getBandits(): Observable<UnitInterface[]> {
-    return this.http.get<UnitInterface[]>(this.banditsUrl).pipe(
+  ngOnInit(): void {}
+
+  createBandit(bandit: UnitInterface): void {
+    this.http
+      .post<RequestUnitInterface>(`${urlBandits}.json`, bandit)
+      .subscribe((res: RequestUnitInterface) => {
+        bandit.key = res.name;
+      });
+  }
+
+  addBandit(bandit: UnitInterface): Observable<UnitInterface> {
+    return this.http.get<UnitInterface[]>(`${urlBandits}.json`).pipe(
+      switchMap((bandits: UnitInterface[]) => {
+        const values = Object.values(bandits);
+        const maxId = Math.max(...values.map((bandit) => bandit.id));
+
+        return this.http.post<RequestUnitInterface>(`${urlBandits}.json`, {
+          ...bandit,
+          type: 'bandit',
+          id: maxId + 1,
+        });
+      }),
+      // tap((newBandit: UnitInterface) => {
+      //   this.log(`added bandit w/ id=${newBandit.id}`);
+      // }),
+      catchError(this.handleError<UnitInterface>('addBandit'))
+    );
+  }
+
+  updateBandit(bandit: UnitInterface): Observable<any> {
+    const updatedBandit = { ...bandit, name: bandit.name };
+    return this.http
+      .put(`${urlBandits}/${bandit.key}.json`, updatedBandit)
+      .pipe(
+        tap(() => this.log(`updated bandit id=${bandit.id}`)),
+        catchError(this.handleError<any>('updateBandit'))
+      );
+  }
+
+  getBanditos(): Observable<UnitInterface[]> {
+    return this.http.get<ResponseUnitInterfase>(`${urlBandits}.json`).pipe(
+      map((res) => {
+        const arr: UnitInterface[] = [];
+        Object.keys(res).forEach((key) => {
+          arr.push({ key, ...res[key] });
+        });
+        return arr;
+      }),
       tap((_) => this.log('fetched bandits')),
       catchError(this.handleError<UnitInterface[]>('getBandits', []))
     );
   }
 
   getBandit(id: number): Observable<UnitInterface> {
-    const url = `${this.banditsUrl}/${id}`;
-    return this.http.get<UnitInterface>(url).pipe(
-      tap((_) => this.log(`fetched bandit id=${id}`)),
-      catchError(this.handleError<UnitInterface>(`getBandit id=${id}`))
-    );
-  }
-
-  updateBandit(Bandit: UnitInterface): Observable<any> {
-    return this.http.put(this.banditsUrl, Bandit, this.httpOptions).pipe(
-      tap((_) => this.log(`updated bandit id=${Bandit.id}`)),
-      catchError(this.handleError<any>('updateBandit'))
+    return this.getBanditos().pipe(
+      map((bandits) => bandits.find((bandit) => bandit.id === id)),
+      tap((bandit) => {
+        if (!bandit) {
+          console.warn(`Bandit with id ${id} not found`);
+        }
+      }),
+      switchMap((bandit) => {
+        if (bandit) {
+          return of(bandit);
+        } else {
+          return throwError(() => new Error(`Bandit with id ${id} not found`));
+        }
+      })
     );
   }
 
@@ -41,23 +103,14 @@ export class BanditService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
-  addBandit(bandit: UnitInterface): Observable<UnitInterface> {
-    return this.http
-      .post<UnitInterface>(this.banditsUrl, bandit, this.httpOptions)
-      .pipe(
-        tap((newBandit: UnitInterface) =>
-          this.log(`added bandit w/ id=${newBandit.id}`)
-        ),
-        catchError(this.handleError<UnitInterface>('addBandit'))
-      );
-  }
+  deleteBandit(bandit: UnitInterface): Observable<any> {
+    const banditId = bandit.id; // Зберігаємо id перед видаленням
 
-  deleteBandit(id: number): Observable<UnitInterface> {
-    const url = `${this.banditsUrl}/${id}`;
+    const url = `${urlBandits}/${bandit.key}.json`;
 
-    return this.http.delete<UnitInterface>(url, this.httpOptions).pipe(
-      tap((_) => this.log(`deleted bandit id=${id}`)),
-      catchError(this.handleError<UnitInterface>('deleteBandit'))
+    return this.http.delete<any>(url, this.httpOptions).pipe(
+      tap(() => this.log(`Deleted bandit with id=${banditId}`)),
+      catchError(this.handleError<any>('deleteBandit'))
     );
   }
 
@@ -65,16 +118,29 @@ export class BanditService {
     if (!term.trim()) {
       return of([]);
     }
-    return this.http
-      .get<UnitInterface[]>(`${this.banditsUrl}/?name=${term}`)
-      .pipe(
-        tap((x) =>
-          x.length
-            ? this.log(`found bandits matching "${term}"`)
-            : this.log(`no bandits matching "${term}"`)
-        ),
-        catchError(this.handleError<UnitInterface[]>('searchBandits', []))
-      );
+
+    return this.http.get<ResponseUnitInterfase>(`${urlBandits}.json`).pipe(
+      map((res) => {
+        const arr: UnitInterface[] = [];
+        Object.keys(res).forEach((key) => {
+          arr.push({ key, ...res[key] });
+        });
+        return arr;
+      }),
+      map((bandits) =>
+        bandits.filter((bandit) =>
+          bandit.name.toLowerCase().includes(term.toLowerCase())
+        )
+      ),
+      tap((results) => {
+        if (results.length > 0) {
+          this.log(`Found ${results.length} bandit matching "${term}"`);
+        } else {
+          this.log(`No bandits matching "${term}"`);
+        }
+      }),
+      catchError(this.handleError<UnitInterface[]>('searchBandits', []))
+    );
   }
 
   private log(message: string) {

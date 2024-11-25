@@ -16,11 +16,11 @@ export const routes: Routes = [
   {
     path: 'hero/:id',
     component: HeroDetailComponent,
-    canActivate: [CanActivateGuard],
+    // canActivate: [CanActivateGuard],
   },
   {
     path: 'bandit/:id',
     component: BanditDetailComponent,
-    canActivate: [CanActivateGuard],
+    // canActivate: [CanActivateGuard],
   },
 ];

@@ -2,14 +2,17 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
+  catchError,
   concatMap,
   debounceTime,
   distinctUntilChanged,
   forkJoin,
   map,
   Observable,
+  of,
   Subject,
   switchMap,
+  tap,
 } from 'rxjs';
 import { UnitInterface } from '../../shared/types/unit.interface';
 import { HeroService } from '../../shared/services/hero.service';
@@ -31,27 +34,25 @@ export class HeroSearchComponent implements OnInit {
     private banditService: BanditService
   ) {}
 
+  ngOnInit(): void {
+    this.searchTerms
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term) =>
+          forkJoin([
+            this.heroService.searchHeroes(term),
+            this.banditService.searchBandits(term),
+          ])
+        ),
+        catchError(() => of([]))
+      )
+      .subscribe(([heroes, bandits]) => {
+        this.units$ = of([...heroes, ...bandits]);
+      });
+  }
+
   search(term: string): void {
     this.searchTerms.next(term);
-  }
-
-  ngOnInit(): void {
-    this.unitsSearch();
-  }
-  unitsSearch(): void {
-    this.units$ = this.searchTerms.pipe(
-      debounceTime(300),
-
-      distinctUntilChanged(),
-
-      // switchMap((term: string) => this.heroService.searchHeroes(term))
-      concatMap((term: string) =>
-        forkJoin([
-          this.heroService.searchHeroes(term),
-          this.banditService.searchBandits(term),
-        ])
-      ),
-      map(([heroes, bandits]) => [...heroes, ...bandits])
-    );
   }
 }

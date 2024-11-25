@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UnitInterface } from '../../shared/types/unit.interface';
 import { RouterLink } from '@angular/router';
 import { BanditService } from '../../shared/services/bandit.service';
@@ -11,19 +11,19 @@ import { BanditService } from '../../shared/services/bandit.service';
   templateUrl: './bandits.component.html',
   styleUrl: './bandits.component.scss',
 })
-export class BanditsComponent {
+export class BanditsComponent implements OnInit {
   bandits: UnitInterface[] = [];
 
-  constructor(private banditService: BanditService) {}
+  constructor(public banditService: BanditService) {}
 
   ngOnInit(): void {
-    this.getHeroes();
+    this.getBanditos();
   }
 
-  getHeroes(): void {
-    this.banditService
-      .getBandits()
-      .subscribe((bandits) => (this.bandits = bandits));
+  getBanditos(): void {
+    this.banditService.getBanditos().subscribe((bandits: UnitInterface[]) => {
+      this.bandits = bandits;
+    });
   }
 
   add(name: string): void {
@@ -34,12 +34,23 @@ export class BanditsComponent {
     this.banditService
       .addBandit({ name } as UnitInterface)
       .subscribe((bandit) => {
-        this.bandits.push(bandit);
+        // this.bandits.push(bandit);
+        if (bandit) {
+          this.getBanditos();
+        }
       });
   }
 
   delete(bandit: UnitInterface): void {
-    this.bandits = this.bandits.filter((h) => h !== bandit);
-    this.banditService.deleteBandit(bandit.id).subscribe();
+    if (!bandit || !bandit.key) {
+      console.error('Неправильний формат даних бандита');
+      return;
+    }
+
+    this.bandits = this.bandits.filter((h) => h.key !== bandit.key);
+    this.banditService.deleteBandit(bandit).subscribe(
+      () => console.log('Бандит успішно видалений'),
+      (error) => console.error('Помилка при видаленні бандита:', error)
+    );
   }
 }

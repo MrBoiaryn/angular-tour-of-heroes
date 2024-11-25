@@ -1,40 +1,127 @@
 import { Injectable } from '@angular/core';
 import { UnitInterface } from '../types/unit.interface';
-import { HEROES } from '../mock/mock-heroes';
-import { catchError, Observable, of, tap } from 'rxjs';
+import {
+  catchError,
+  filter,
+  map,
+  Observable,
+  of,
+  switchMap,
+  tap,
+  throwError,
+} from 'rxjs';
 import { MessageService } from './message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { RequestUnitInterface } from '../types/request-unit.interface';
+import { HERO } from '../mock/mock-data-units';
+import { ResponseUnitInterfase } from '../types/response-unit.interfase';
+
+const urlHeroes =
+  'https://tour-of-heroes-ad5af-default-rtdb.europe-west1.firebasedatabase.app/heroes';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HeroService {
-  private heroesUrl = 'api/heroes';
+  heroes: UnitInterface[] = [];
+  private _newHero!: UnitInterface;
 
   constructor(
     private messageService: MessageService,
     private http: HttpClient
   ) {}
 
-  getHeroes(): Observable<UnitInterface[]> {
-    return this.http.get<UnitInterface[]>(this.heroesUrl).pipe(
+  createHero(hero: UnitInterface): void {
+    this.http
+      .post<RequestUnitInterface>(`${urlHeroes}.json`, hero)
+      .subscribe((res: RequestUnitInterface) => {
+        hero.key = res.name;
+      });
+  }
+
+  addHero(hero: UnitInterface): Observable<any> {
+    return this.http.get<UnitInterface[]>(`${urlHeroes}.json`).pipe(
+      switchMap((heroes: UnitInterface[]) => {
+        const values = Object.values(heroes);
+        const maxId = Math.max(...values.map((hero) => hero.id));
+
+        return this.http.post<RequestUnitInterface>(`${urlHeroes}.json`, {
+          ...hero,
+          type: 'hero',
+          id: maxId + 1,
+        });
+      }),
+      // tap((newHero: UnitInterface) => {
+      //   this.log(`added hero w/ id=${newHero.id}`);
+      // }),
+      catchError(this.handleError<UnitInterface>('addHero'))
+    );
+  }
+
+  // addHero(hero: UnitInterface): Observable<UnitInterface> {
+  //   return this.http.get<UnitInterface[]>(`${urlHeroes}.json`).pipe(
+  //     switchMap((heroes: UnitInterface[]) => {
+  //       const values = Object.values(heroes);
+  //       const maxId = Math.max(...values.map((hero) => hero.id));
+  //       console.log('Максимальний ID:', maxId);
+  //       this._newHero = {
+  //         ...hero,
+  //         type: 'hero',
+  //         id: maxId + 1,
+  //       };
+  //       return this.http.post<RequestUnitInterface>(
+  //         `${urlHeroes}.json`,
+  //         this._newHero
+  //       );
+  //     }),
+  //     map((res: RequestUnitInterface) => ({
+  //       ...this._newHero,
+  //       key: res.name,
+  //     })),
+  //     tap((newHero: UnitInterface) => {
+  //       this.log(`added hero w/ id=${newHero.id}`);
+  //     }),
+  //     catchError(this.handleError<UnitInterface>('addHero'))
+  //   );
+  // }
+
+  updateHero(hero: UnitInterface): Observable<any> {
+    const updatedHero = { ...hero, name: hero.name };
+    return this.http.put(`${urlHeroes}/${hero.key}.json`, updatedHero).pipe(
+      tap(() => this.log(`updated hero id=${hero.id}`)),
+      catchError(this.handleError<any>('updateHero'))
+    );
+  }
+
+  getHeroitos(): Observable<UnitInterface[]> {
+    return this.http.get<ResponseUnitInterfase>(`${urlHeroes}.json`).pipe(
+      map((res) => {
+        const arr: UnitInterface[] = [];
+        Object.keys(res).forEach((key) => {
+          arr.push({ key, ...res[key] });
+        });
+        return arr;
+      }),
       tap((_) => this.log('fetched heroes')),
       catchError(this.handleError<UnitInterface[]>('getHeroes', []))
     );
   }
 
   getHero(id: number): Observable<UnitInterface> {
-    const url = `${this.heroesUrl}/${id}`;
-    return this.http.get<UnitInterface>(url).pipe(
-      tap((_) => this.log(`fetched hero id=${id}`)),
-      catchError(this.handleError<UnitInterface>(`getHero id=${id}`))
-    );
-  }
-
-  updateHero(hero: UnitInterface): Observable<any> {
-    return this.http.put(this.heroesUrl, hero, this.httpOptions).pipe(
-      tap((_) => this.log(`updated hero id=${hero.id}`)),
-      catchError(this.handleError<any>('updateHero'))
+    return this.getHeroitos().pipe(
+      map((heroes) => heroes.find((hero) => hero.id === id)),
+      tap((hero) => {
+        if (!hero) {
+          console.warn(`Hero with id ${id} not found`);
+        }
+      }),
+      switchMap((hero) => {
+        if (hero) {
+          return of(hero);
+        } else {
+          return throwError(() => new Error(`Hero with id ${id} not found`));
+        }
+      })
     );
   }
 
@@ -42,23 +129,14 @@ export class HeroService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
-  addHero(hero: UnitInterface): Observable<UnitInterface> {
-    return this.http
-      .post<UnitInterface>(this.heroesUrl, hero, this.httpOptions)
-      .pipe(
-        tap((newHero: UnitInterface) =>
-          this.log(`added hero w/ id=${newHero.id}`)
-        ),
-        catchError(this.handleError<UnitInterface>('addHero'))
-      );
-  }
+  deleteHero(hero: UnitInterface): Observable<any> {
+    const heroId = hero.id; // Зберігаємо id перед видаленням
 
-  deleteHero(id: number): Observable<UnitInterface> {
-    const url = `${this.heroesUrl}/${id}`;
+    const url = `${urlHeroes}/${hero.key}.json`;
 
-    return this.http.delete<UnitInterface>(url, this.httpOptions).pipe(
-      tap((_) => this.log(`deleted hero id=${id}`)),
-      catchError(this.handleError<UnitInterface>('deleteHero'))
+    return this.http.delete<any>(url, this.httpOptions).pipe(
+      tap(() => this.log(`Deleted hero with id=${heroId}`)),
+      catchError(this.handleError<any>('deleteHero'))
     );
   }
 
@@ -66,16 +144,29 @@ export class HeroService {
     if (!term.trim()) {
       return of([]);
     }
-    return this.http
-      .get<UnitInterface[]>(`${this.heroesUrl}/?name=${term}`)
-      .pipe(
-        tap((x) =>
-          x.length
-            ? this.log(`found heroes matching "${term}"`)
-            : this.log(`no heroes matching "${term}"`)
-        ),
-        catchError(this.handleError<UnitInterface[]>('searchHeroes', []))
-      );
+
+    return this.http.get<ResponseUnitInterfase>(`${urlHeroes}.json`).pipe(
+      map((res) => {
+        const arr: UnitInterface[] = [];
+        Object.keys(res).forEach((key) => {
+          arr.push({ key, ...res[key] });
+        });
+        return arr;
+      }),
+      map((heroes) =>
+        heroes.filter((hero) =>
+          hero.name.toLowerCase().includes(term.toLowerCase())
+        )
+      ),
+      tap((results) => {
+        if (results.length > 0) {
+          this.log(`Found ${results.length} heroes matching "${term}"`);
+        } else {
+          this.log(`No heroes matching "${term}"`);
+        }
+      }),
+      catchError(this.handleError<UnitInterface[]>('searchHeroes', []))
+    );
   }
 
   private log(message: string) {

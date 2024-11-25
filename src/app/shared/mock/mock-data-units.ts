@@ -12,3 +12,15 @@ export const HEROES: UnitInterface[] = [
   { id: 20, name: 'Tornado', type: 'hero' },
   { id: 99, name: 'Galia', type: 'hero' },
 ];
+
+export const BANDIT: UnitInterface = {
+  id: 12,
+  name: 'Poroshenko',
+  type: 'bandit',
+};
+
+export const HERO: UnitInterface = {
+  id: 12,
+  name: 'Dr. Nice',
+  type: 'hero',
+};
