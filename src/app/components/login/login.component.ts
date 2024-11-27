@@ -3,11 +3,12 @@ import { Component, HostListener } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-login',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatButtonModule, MatInputModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })

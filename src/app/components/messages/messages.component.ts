@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MessageService } from '../../shared/services/message.service';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-messages',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatButtonModule],
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.scss',
 })

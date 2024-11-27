@@ -3,11 +3,23 @@ import { Component, OnInit } from '@angular/core';
 import { UnitInterface } from '../../shared/types/unit.interface';
 import { RouterLink } from '@angular/router';
 import { BanditService } from '../../shared/services/bandit.service';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-bandits',
-  standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [
+    CommonModule,
+    RouterLink,
+    MatInputModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatButtonModule,
+    MatListModule,
+  ],
   templateUrl: './bandits.component.html',
   styleUrl: './bandits.component.scss',
 })

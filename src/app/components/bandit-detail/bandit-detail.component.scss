@@ -1,24 +1,38 @@
 /* HeroDetailComponent's private CSS styles */
-label {
-  color: #435960;
-  font-weight: bold;
-}
-input {
-  font-size: 1em;
-  padding: .5rem;
-}
-button {
+// label {
+//   color: #435960;
+//   font-weight: bold;
+// }
+// input {
+  // font-size: 1em;
+  // padding: .5rem;
+// }
+// button {
+//   margin-top: 20px;
+//   background-color: #eee;
+//   padding: 1rem;
+//   border-radius: 4px;
+//   font-size: 1rem;
+// }
+// button:hover {
+//   background-color: #cfd8dc;
+// }
+// button:disabled {
+//   background-color: #eee;
+//   color: #ccc;
+//   cursor: auto;
+// }
+
+.example-full-width{
   margin-top: 20px;
-  background-color: #eee;
-  padding: 1rem;
-  border-radius: 4px;
-  font-size: 1rem;
+  width: 400px;
 }
-button:hover {
-  background-color: #cfd8dc;
+
+.example-button-row {
+  display: table-cell;
+  max-width: 600px;
 }
-button:disabled {
-  background-color: #eee;
-  color: #ccc;
-  cursor: auto;
+
+.example-button-row .mat-mdc-button-base {
+  margin: 8px 8px 8px 0;
 }

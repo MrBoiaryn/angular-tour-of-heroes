@@ -1,4 +1,4 @@
-<div id="search-component">
+<!-- <div id="search-component">
   <label for="search-box">Unit Search</label>
   <input #searchBox id="search-box" (input)="search(searchBox.value)" />
 
@@ -10,5 +10,32 @@
       </a>
     </li>
   </ul>
+
+</div> -->
+
+<div id="search-component">
+  <form class="example-form">
+    <mat-form-field class="example-full-width" appearance="outline">
+      <mat-label>Unit Search</mat-label>
+      <input matInput #searchBox id="search-box" (input)="search(searchBox.value)">
+    </mat-form-field>
+  </form>
+
+
+  <!-- <ul class="search-result">
+    <li *ngFor="let unit of units$ | async">
+      <a [routerLink]="['/', unit.type, unit.id]">
+        {{ unit.name }}
+      </a>
+    </li>
+  </ul> -->
+
+  <mat-list role="list">
+    <mat-list-item role="listitem" *ngFor="let unit of units$ | async">
+      <a [routerLink]="['/', unit.type, unit.id]">
+        {{ unit.name }}
+      </a>
+    </mat-list-item>
+  </mat-list>
 
 </div>

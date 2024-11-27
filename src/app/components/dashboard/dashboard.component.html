@@ -1,12 +1,12 @@
 <h2>Top Heroes</h2>
-<div class="heroes-menu">
-  <a *ngFor="let hero of heroes" routerLink="/hero/{{hero.id}}">
+<div class="heroes-menu example-button-row">
+  <a mat-flat-button *ngFor="let hero of heroes" routerLink="/hero/{{hero.id}}">
     {{hero.name}}
   </a>
 </div>
 <h2>Top Bandits</h2>
-<div class="bandits-menu">
-  <a *ngFor="let bandit of bandits" routerLink="/bandit/{{bandit.id}}">
+<div class="bandits-menu example-button-row">
+  <a mat-flat-button *ngFor="let bandit of bandits" routerLink="/bandit/{{bandit.id}}">
     {{bandit.name}}
   </a>
 </div>

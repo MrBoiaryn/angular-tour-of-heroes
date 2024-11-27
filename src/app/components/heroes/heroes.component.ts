@@ -1,21 +1,27 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UnitInterface } from '../../shared/types/unit.interface';
 import { FormsModule } from '@angular/forms';
-import { HeroDetailComponent } from '../hero-detail/hero-detail.component';
 import { HeroService } from '../../shared/services/hero.service';
 import { RouterLink } from '@angular/router';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-heroes',
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterLink,
+    MatInputModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatButtonModule,
+    MatListModule,
+  ],
   templateUrl: './heroes.component.html',
   styleUrl: './heroes.component.scss',
 })

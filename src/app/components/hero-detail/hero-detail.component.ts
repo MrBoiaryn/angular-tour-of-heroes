@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { UnitInterface } from '../../shared/types/unit.interface';
 import { ActivatedRoute } from '@angular/router';
 import { HeroService } from '../../shared/services/hero.service';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-hero-detail',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatInputModule, MatButtonModule],
   templateUrl: './hero-detail.component.html',
   styleUrl: './hero-detail.component.scss',
 })

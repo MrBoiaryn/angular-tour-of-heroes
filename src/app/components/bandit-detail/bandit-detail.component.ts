@@ -4,11 +4,12 @@ import { UnitInterface } from '../../shared/types/unit.interface';
 import { ActivatedRoute } from '@angular/router';
 import { BanditService } from '../../shared/services/bandit.service';
 import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-bandit-detail',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatInputModule, MatButtonModule],
   templateUrl: './bandit-detail.component.html',
   styleUrl: './bandit-detail.component.scss',
 })

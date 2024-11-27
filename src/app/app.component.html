@@ -1,9 +1,19 @@
-<h1>{{title}}</h1>
-<nav>
-  <a routerLink="/dashboard">Dashboard</a>
-  <a routerLink="/heroes">Heroes</a>
-  <a routerLink="/bandits">Bandits</a>
-  <a routerLink="/login">Login</a>
-</nav>
-<router-outlet></router-outlet>
-<app-messages></app-messages>
+<div class="container">
+  <h1>{{title}}</h1>
+  <!-- <nav>
+    <a routerLink="/dashboard">Dashboard</a>
+    <a routerLink="/heroes">Heroes</a>
+    <a routerLink="/bandits">Bandits</a>
+    <a routerLink="/login">Login</a>
+  
+  </nav> -->
+  <div class="example-button-row">
+    <a mat-stroked-button routerLink="/dashboard">Dashboard</a>
+    <a mat-stroked-button routerLink="/heroes">Heroes</a>
+    <a mat-stroked-button routerLink="/bandits">Bandits</a>
+    <!-- <a mat-stroked-button routerLink="/login" >Login</a> -->
+    <a mat-stroked-button (click)="openLogin()">Login</a>
+  </div>
+  <router-outlet></router-outlet>
+  <app-messages></app-messages>
+</div>

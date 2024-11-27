@@ -5,11 +5,11 @@ import { HeroService } from '../../shared/services/hero.service';
 import { RouterLink } from '@angular/router';
 import { HeroSearchComponent } from '../hero-search/hero-search.component';
 import { BanditService } from '../../shared/services/bandit.service';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-dashboard',
-  standalone: true,
-  imports: [CommonModule, RouterLink, HeroSearchComponent],
+  imports: [CommonModule, RouterLink, HeroSearchComponent, MatButtonModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })

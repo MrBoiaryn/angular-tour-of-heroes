@@ -8,19 +8,27 @@ import { CanActivateGuard } from './shared/guard/can-activate.guard';
 import { LoginComponent } from './components/login/login.component';
 
 export const routes: Routes = [
-  { path: 'heroes', component: HeroesComponent },
-  { path: 'bandits', component: BanditsComponent },
+  {
+    path: 'heroes',
+    component: HeroesComponent,
+    canActivate: [CanActivateGuard],
+  },
+  {
+    path: 'bandits',
+    component: BanditsComponent,
+    canActivate: [CanActivateGuard],
+  },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   {
     path: 'hero/:id',
     component: HeroDetailComponent,
-    // canActivate: [CanActivateGuard],
+    canActivate: [CanActivateGuard],
   },
   {
     path: 'bandit/:id',
     component: BanditDetailComponent,
-    // canActivate: [CanActivateGuard],
+    canActivate: [CanActivateGuard],
   },
 ];

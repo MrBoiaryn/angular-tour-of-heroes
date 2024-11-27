@@ -17,11 +17,25 @@ import {
 import { UnitInterface } from '../../shared/types/unit.interface';
 import { HeroService } from '../../shared/services/hero.service';
 import { BanditService } from '../../shared/services/bandit.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-hero-search',
-  standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [
+    CommonModule,
+    RouterLink,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatListModule,
+  ],
   templateUrl: './hero-search.component.html',
   styleUrl: './hero-search.component.scss',
 })

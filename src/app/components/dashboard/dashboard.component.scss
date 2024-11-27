@@ -18,25 +18,30 @@ h2 {
   align-items: flex-start;
 }
 
-a {
-  background-color: #3f525c;
-  border-radius: 2px;
-  padding: 1rem;
-  font-size: 1.2rem;
-  text-decoration: none;
-  display: inline-block;
-  color: #fff;
-  text-align: center;
-  width: 100%;
-  min-width: 70px;
-  margin: .5rem auto;
-  box-sizing: border-box;
-
-  /* flexbox */
-  order: 0;
-  flex: 0 1 auto;
-  align-self: auto;
+.example-button-row .mat-mdc-button-base {
+  margin: 8px 8px 8px 0;
+  padding: 10px;
 }
+
+// a {
+//   background-color: #3f525c;
+//   border-radius: 2px;
+//   padding: 1rem;
+//   font-size: 1.2rem;
+//   text-decoration: none;
+//   display: inline-block;
+//   color: #fff;
+//   text-align: center;
+//   width: 100%;
+//   min-width: 70px;
+//   margin: .5rem auto;
+//   box-sizing: border-box;
+
+//   /* flexbox */
+//   order: 0;
+//   flex: 0 1 auto;
+//   align-self: auto;
+// }
 
 @media (min-width: 600px) {
   a {
@@ -48,3 +53,4 @@ a {
 a:hover {
   background-color: #000;
 }
+
