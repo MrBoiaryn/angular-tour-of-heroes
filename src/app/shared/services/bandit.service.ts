@@ -45,7 +45,7 @@ export class BanditService implements OnInit {
         });
       }),
       tap(() => {
-        this.log(`added bandit w/ id=${this.idLog}`);
+        this.log(`added bandit id=${this.idLog}`);
       }),
       catchError(this.handleError<UnitInterface>('addBandit'))
     );
