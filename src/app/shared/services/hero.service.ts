@@ -43,7 +43,7 @@ export class HeroService {
         });
       }),
       tap(() => {
-        this.log(`added hero w/ id=${this.idLog}`);
+        this.log(`added hero id=${this.idLog}`);
       }),
       catchError(this.handleError<UnitInterface>('addHero'))
     );
