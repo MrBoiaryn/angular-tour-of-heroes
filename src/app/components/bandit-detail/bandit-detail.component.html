@@ -1,22 +1,17 @@
 <div *ngIf="bandit">
 
   <h2>{{bandit.name | uppercase}} Details!</h2>
+
   <div>id: {{bandit.id}}</div>
-  <div>
-    <!-- <label for="hero-name">Bandit name: </label> -->
-    <!-- <input id="hero-name" [(ngModel)]="bandit.name" type="text" placeholder="name"> -->
-    <mat-form-field class="example-full-width" appearance="outline">
-      <mat-label>Bandit name:</mat-label>
-      <input matInput #searchBox id="search-box" [(ngModel)]="bandit.name" type="text" placeholder="name">
-    </mat-form-field>
-  </div>
+
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Bandit name:</mat-label>
+    <input matInput #searchBox id="search-box" [(ngModel)]="bandit.name" type="text" placeholder="name">
+  </mat-form-field>
 
 </div>
 
-<!-- <button type="button" (click)="goBack()">go back</button>
-<button type="button" (click)="save()">save</button> -->
-
 <div class="example-button-row">
-  <button mat-flat-button color="primary" (click)="goBack()">go back</button>
-  <button mat-flat-button color="warn" (click)="save()">save</button>
+  <button mat-flat-button (click)="goBack()">go back</button>
+  <button mat-flat-button (click)="save()">save</button>
 </div>

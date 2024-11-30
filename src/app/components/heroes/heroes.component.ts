@@ -31,11 +31,11 @@ export class HeroesComponent implements OnInit {
   constructor(public heroService: HeroService) {}
 
   ngOnInit(): void {
-    this.getHeroitos();
+    this.getHeroes();
   }
 
-  getHeroitos(): void {
-    this.heroService.getHeroitos().subscribe((heroes: UnitInterface[]) => {
+  getHeroes(): void {
+    this.heroService.getHeroes().subscribe((heroes: UnitInterface[]) => {
       this.heroes = heroes;
     });
   }
@@ -46,23 +46,18 @@ export class HeroesComponent implements OnInit {
       return;
     }
     this.heroService.addHero({ name } as UnitInterface).subscribe((hero) => {
-      // this.heroes.push(hero);
       if (hero) {
-        this.getHeroitos();
+        this.getHeroes();
       }
     });
   }
 
   delete(hero: UnitInterface): void {
     if (!hero || !hero.key) {
-      console.error('Неправильний формат даних бандита');
       return;
     }
 
     this.heroes = this.heroes.filter((h) => h.key !== hero.key);
-    this.heroService.deleteHero(hero).subscribe(
-      () => console.log('Бандит успішно видалений'),
-      (error) => console.error('Помилка при видаленні бандита:', error)
-    );
+    this.heroService.deleteHero(hero).subscribe();
   }
 }

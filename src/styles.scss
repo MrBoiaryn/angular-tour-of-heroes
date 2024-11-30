@@ -1,9 +1,8 @@
-/* Application-wide Styles */
-
 .container{
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 20px;;
+  padding: 0 20px;
+  position: relative;
 }
 h1 {
   color: #369;
@@ -15,44 +14,9 @@ h2, h3 {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: lighter;
 }
-body {
-  margin: 2em;
-}
-// body, input[type="text"], button {
-//   color: #333;
-//   font-family: Cambria, Georgia, serif;
-// }
-button {
-  background-color: #eee;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  color: black;
-  font-size: 1.2rem;
-  padding: 1rem;
-  margin-right: 1rem;
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-}
-button:hover {
-  background-color: black;
-  color: white;
-}
-// button:disabled {
-//   background-color: #eee;
-//   color: #aaa;
-//   cursor: auto;
-// }
 
-/* everywhere else */
 * {
   font-family: Arial, Helvetica, sans-serif;
-}
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-section {
-  display: table;
 }
 
 .example-label {
@@ -62,23 +26,6 @@ section {
   min-width: 120px;
 }
 
-.example-button-row {
-  display: table-cell;
-  max-width: 600px;
-}
-
 .example-button-row .mat-mdc-button-base {
   margin: 16px 16px 16px 0;
-}
-
-.example-flex-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-.example-button-container {
-  display: flex;
-  justify-content: center;
-  width: 120px;
 }

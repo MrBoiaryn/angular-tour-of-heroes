@@ -29,11 +29,11 @@ export class BanditsComponent implements OnInit {
   constructor(public banditService: BanditService) {}
 
   ngOnInit(): void {
-    this.getBanditos();
+    this.getBandits();
   }
 
-  getBanditos(): void {
-    this.banditService.getBanditos().subscribe((bandits: UnitInterface[]) => {
+  getBandits(): void {
+    this.banditService.getBandits().subscribe((bandits: UnitInterface[]) => {
       this.bandits = bandits;
     });
   }
@@ -46,23 +46,18 @@ export class BanditsComponent implements OnInit {
     this.banditService
       .addBandit({ name } as UnitInterface)
       .subscribe((bandit) => {
-        // this.bandits.push(bandit);
         if (bandit) {
-          this.getBanditos();
+          this.getBandits();
         }
       });
   }
 
   delete(bandit: UnitInterface): void {
     if (!bandit || !bandit.key) {
-      console.error('Неправильний формат даних бандита');
       return;
     }
 
     this.bandits = this.bandits.filter((h) => h.key !== bandit.key);
-    this.banditService.deleteBandit(bandit).subscribe(
-      () => console.log('Бандит успішно видалений'),
-      (error) => console.error('Помилка при видаленні бандита:', error)
-    );
+    this.banditService.deleteBandit(bandit).subscribe();
   }
 }

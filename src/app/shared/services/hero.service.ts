@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { UnitInterface } from '../types/unit.interface';
 import {
   catchError,
-  filter,
   map,
   Observable,
   of,
@@ -13,7 +12,6 @@ import {
 import { MessageService } from './message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RequestUnitInterface } from '../types/request-unit.interface';
-import { HERO } from '../mock/mock-data-units';
 import { ResponseUnitInterfase } from '../types/response-unit.interfase';
 
 const urlHeroes =
@@ -24,26 +22,19 @@ const urlHeroes =
 })
 export class HeroService {
   heroes: UnitInterface[] = [];
-  private _newHero!: UnitInterface;
+  idLog!: number;
 
   constructor(
     private messageService: MessageService,
     private http: HttpClient
   ) {}
 
-  createHero(hero: UnitInterface): void {
-    this.http
-      .post<RequestUnitInterface>(`${urlHeroes}.json`, hero)
-      .subscribe((res: RequestUnitInterface) => {
-        hero.key = res.name;
-      });
-  }
-
   addHero(hero: UnitInterface): Observable<any> {
     return this.http.get<UnitInterface[]>(`${urlHeroes}.json`).pipe(
       switchMap((heroes: UnitInterface[]) => {
         const values = Object.values(heroes);
         const maxId = Math.max(...values.map((hero) => hero.id));
+        this.idLog = maxId + 1;
 
         return this.http.post<RequestUnitInterface>(`${urlHeroes}.json`, {
           ...hero,
@@ -51,39 +42,12 @@ export class HeroService {
           id: maxId + 1,
         });
       }),
-      // tap((newHero: UnitInterface) => {
-      //   this.log(`added hero w/ id=${newHero.id}`);
-      // }),
+      tap(() => {
+        this.log(`added hero w/ id=${this.idLog}`);
+      }),
       catchError(this.handleError<UnitInterface>('addHero'))
     );
   }
-
-  // addHero(hero: UnitInterface): Observable<UnitInterface> {
-  //   return this.http.get<UnitInterface[]>(`${urlHeroes}.json`).pipe(
-  //     switchMap((heroes: UnitInterface[]) => {
-  //       const values = Object.values(heroes);
-  //       const maxId = Math.max(...values.map((hero) => hero.id));
-  //       console.log('Максимальний ID:', maxId);
-  //       this._newHero = {
-  //         ...hero,
-  //         type: 'hero',
-  //         id: maxId + 1,
-  //       };
-  //       return this.http.post<RequestUnitInterface>(
-  //         `${urlHeroes}.json`,
-  //         this._newHero
-  //       );
-  //     }),
-  //     map((res: RequestUnitInterface) => ({
-  //       ...this._newHero,
-  //       key: res.name,
-  //     })),
-  //     tap((newHero: UnitInterface) => {
-  //       this.log(`added hero w/ id=${newHero.id}`);
-  //     }),
-  //     catchError(this.handleError<UnitInterface>('addHero'))
-  //   );
-  // }
 
   updateHero(hero: UnitInterface): Observable<any> {
     const updatedHero = { ...hero, name: hero.name };
@@ -93,7 +57,7 @@ export class HeroService {
     );
   }
 
-  getHeroitos(): Observable<UnitInterface[]> {
+  getHeroes(): Observable<UnitInterface[]> {
     return this.http.get<ResponseUnitInterfase>(`${urlHeroes}.json`).pipe(
       map((res) => {
         const arr: UnitInterface[] = [];
@@ -108,7 +72,7 @@ export class HeroService {
   }
 
   getHero(id: number): Observable<UnitInterface> {
-    return this.getHeroitos().pipe(
+    return this.getHeroes().pipe(
       map((heroes) => heroes.find((hero) => hero.id === id)),
       tap((hero) => {
         if (!hero) {
@@ -130,7 +94,7 @@ export class HeroService {
   };
 
   deleteHero(hero: UnitInterface): Observable<any> {
-    const heroId = hero.id; // Зберігаємо id перед видаленням
+    const heroId = hero.id;
 
     const url = `${urlHeroes}/${hero.key}.json`;
 

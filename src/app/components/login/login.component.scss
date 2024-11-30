@@ -1,11 +1,18 @@
 .container {
   text-align: center;
+  min-width: 300px;
 }
 
 mat-form-field{
-  width: 400px;
+  width: 100%;
 }
 
 span {
   font-weight: bold;
+}
+
+.close{
+  position: absolute;
+  top: 0;
+  right: 0;
 }

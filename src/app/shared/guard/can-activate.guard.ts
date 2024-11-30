@@ -26,17 +26,11 @@ export class CanActivateGuard implements CanActivate {
     if (this.authService.isLoggedIn) return true;
     this.authService.redirectUrl = state.url;
 
-    // this.router.navigate(['/login']);
-    const dialogRef = this.dialog.open(LoginComponent, {
-      // Додаткові налаштування діалогу, наприклад, ширина, висота, backdrop
-    });
+    const dialogRef = this.dialog.open(LoginComponent, {});
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result === true) {
-        // Авторизація успішна, перенаправляємо користувача
         this.router.navigate([this.authService.redirectUrl]);
-      } else {
-        // Обробка помилки авторизації
       }
     });
 

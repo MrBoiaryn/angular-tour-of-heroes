@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   catchError,
-  concatMap,
   debounceTime,
   distinctUntilChanged,
   forkJoin,
@@ -12,7 +11,6 @@ import {
   of,
   Subject,
   switchMap,
-  tap,
 } from 'rxjs';
 import { UnitInterface } from '../../shared/types/unit.interface';
 import { HeroService } from '../../shared/services/hero.service';
@@ -49,6 +47,10 @@ export class HeroSearchComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.unitSearch();
+  }
+
+  unitSearch(): void {
     this.searchTerms
       .pipe(
         debounceTime(300),
@@ -59,10 +61,16 @@ export class HeroSearchComponent implements OnInit {
             this.banditService.searchBandits(term),
           ])
         ),
-        catchError(() => of([]))
+        catchError(() => of([])),
+        map(([heroes, bandits]) => {
+          const units = [...heroes, ...bandits];
+          return units.sort((a, b) => {
+            return a.name.localeCompare(b.name);
+          });
+        })
       )
-      .subscribe(([heroes, bandits]) => {
-        this.units$ = of([...heroes, ...bandits]);
+      .subscribe((units) => {
+        this.units$ = of(units);
       });
   }
 

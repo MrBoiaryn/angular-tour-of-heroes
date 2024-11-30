@@ -1,40 +1,49 @@
 <div class="container">
+
   <h2 mat-dialog-title>Login Page</h2>
 
   <div mat-dialog-content>
-    <p>Hello, please don't add many characters and also don't delete them all.</p>
-    <P>Login: <span>admin</span></P>
-    <P>Password: <span>12345678</span></P>
-    <p>{{message}}</p>
+
+    <mat-dialog-actions align="end" class="close">
+      <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-dialog-actions>
+
+    <p><span>{{message}}</span></p>
+
     <div *ngIf="authService.isLoggedIn; then thenBlock; else elseBlock"></div>
+
     <ng-template #thenBlock>
-      <!-- <button (click)="logout()" type="button">Logout</button> -->
-      <button mat-raised-button (click)="logout()">Logout</button>
+      <p>You are logged in!</p>
+      <mat-dialog-actions align="center">
+        <button mat-raised-button (click)="logout()">Logout</button>
+      </mat-dialog-actions>
     </ng-template>
+
     <ng-template #elseBlock>
+
       <div>
-        <!-- <label>Login
-          <input type="text" [(ngModel)]="userLogin">
-        </label> -->
+        <p>Hello, please don't add many units and also don't delete them all.</p>
+        <P>Login: <span>admin</span></P>
+        <P>Password: <span>12345678</span></P>
         <mat-form-field class="example-full-width" appearance="outline">
           <mat-label>Login</mat-label>
           <input matInput [(ngModel)]="userLogin">
         </mat-form-field>
       </div>
+
       <div>
-        <!-- <label>Password
-          <input type="password" [(ngModel)]="userPassword">
-        </label> -->
         <mat-form-field class="example-full-width" appearance="outline">
           <mat-label>Password</mat-label>
           <input matInput [(ngModel)]="userPassword" type="password">
         </mat-form-field>
       </div>
-      <!-- <button (click)="login()" type="button">Login</button> -->
 
-      <div mat-dialog-actions class="button-container">
+      <mat-dialog-actions align="end">
         <button mat-raised-button (click)="login()">Login</button>
-      </div>
+      </mat-dialog-actions>
+
     </ng-template>
   </div>
 </div>

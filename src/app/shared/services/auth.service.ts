@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { catchError, delay, map, Observable, of, tap } from 'rxjs';
+import { delay, map, Observable, of, tap } from 'rxjs';
 import { GetAuthResponseInterface } from '../types/get-auth-response.interface';
 import { MessageService } from './message.service';
 

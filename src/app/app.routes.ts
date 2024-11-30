@@ -9,16 +9,16 @@ import { LoginComponent } from './components/login/login.component';
 
 export const routes: Routes = [
   {
-    path: 'heroes',
+    path: 'Heroes',
     component: HeroesComponent,
     canActivate: [CanActivateGuard],
   },
   {
-    path: 'bandits',
+    path: 'Bandits',
     component: BanditsComponent,
     canActivate: [CanActivateGuard],
   },
-  { path: 'dashboard', component: DashboardComponent },
+  { path: 'Dashboard', component: DashboardComponent },
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   {

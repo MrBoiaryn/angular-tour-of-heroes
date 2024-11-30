@@ -22,6 +22,7 @@ const urlBandits =
 })
 export class BanditService implements OnInit {
   bandits: UnitInterface[] = [];
+  idLog!: number;
 
   constructor(
     private messageService: MessageService,
@@ -30,19 +31,12 @@ export class BanditService implements OnInit {
 
   ngOnInit(): void {}
 
-  createBandit(bandit: UnitInterface): void {
-    this.http
-      .post<RequestUnitInterface>(`${urlBandits}.json`, bandit)
-      .subscribe((res: RequestUnitInterface) => {
-        bandit.key = res.name;
-      });
-  }
-
   addBandit(bandit: UnitInterface): Observable<UnitInterface> {
     return this.http.get<UnitInterface[]>(`${urlBandits}.json`).pipe(
       switchMap((bandits: UnitInterface[]) => {
         const values = Object.values(bandits);
         const maxId = Math.max(...values.map((bandit) => bandit.id));
+        this.idLog = maxId + 1;
 
         return this.http.post<RequestUnitInterface>(`${urlBandits}.json`, {
           ...bandit,
@@ -50,9 +44,9 @@ export class BanditService implements OnInit {
           id: maxId + 1,
         });
       }),
-      // tap((newBandit: UnitInterface) => {
-      //   this.log(`added bandit w/ id=${newBandit.id}`);
-      // }),
+      tap(() => {
+        this.log(`added bandit w/ id=${this.idLog}`);
+      }),
       catchError(this.handleError<UnitInterface>('addBandit'))
     );
   }
@@ -67,7 +61,7 @@ export class BanditService implements OnInit {
       );
   }
 
-  getBanditos(): Observable<UnitInterface[]> {
+  getBandits(): Observable<UnitInterface[]> {
     return this.http.get<ResponseUnitInterfase>(`${urlBandits}.json`).pipe(
       map((res) => {
         const arr: UnitInterface[] = [];
@@ -82,7 +76,7 @@ export class BanditService implements OnInit {
   }
 
   getBandit(id: number): Observable<UnitInterface> {
-    return this.getBanditos().pipe(
+    return this.getBandits().pipe(
       map((bandits) => bandits.find((bandit) => bandit.id === id)),
       tap((bandit) => {
         if (!bandit) {
@@ -104,7 +98,7 @@ export class BanditService implements OnInit {
   };
 
   deleteBandit(bandit: UnitInterface): Observable<any> {
-    const banditId = bandit.id; // Зберігаємо id перед видаленням
+    const banditId = bandit.id;
 
     const url = `${urlBandits}/${bandit.key}.json`;
 

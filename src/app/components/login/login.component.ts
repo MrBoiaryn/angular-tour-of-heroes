@@ -5,10 +5,19 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, FormsModule, MatButtonModule, MatInputModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatButtonModule,
+    MatInputModule,
+    MatDialogModule,
+    MatIconModule,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -35,7 +44,7 @@ export class LoginComponent {
 
         const redirect = this.authService.redirectUrl
           ? this.authService.redirectUrl
-          : '/dashboard';
+          : '/Dashboard';
 
         this.router.navigate([redirect]);
       },
