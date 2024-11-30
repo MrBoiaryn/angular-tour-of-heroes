@@ -13,6 +13,10 @@ h2 {
   justify-content: space-around;
   align-content: flex-start;
   align-items: flex-start;
+
+  a{
+    font-size: 18px;
+  }
 }
 
 .example-button-row .mat-mdc-button-base {

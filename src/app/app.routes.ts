@@ -20,7 +20,7 @@ export const routes: Routes = [
   },
   { path: 'Dashboard', component: DashboardComponent },
   { path: 'login', component: LoginComponent },
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: '/Dashboard', pathMatch: 'full' },
   {
     path: 'hero/:id',
     component: HeroDetailComponent,
@@ -30,5 +30,9 @@ export const routes: Routes = [
     path: 'bandit/:id',
     component: BanditDetailComponent,
     canActivate: [CanActivateGuard],
+  },
+  {
+    path: '**',
+    redirectTo: '/Dashboard',
   },
 ];
